@@ -17,6 +17,7 @@ if ($file === false) {
 }
 
 $owner_name = $dbClient->get_username_by_id($file["owner"]);
+$dbClient->increment_downloads($file["id"]);
 
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');

@@ -224,6 +224,19 @@ class DatabaseClient
         }
         return $result["username"];
     }
+
+    public function increment_downloads(int $file_id)
+    {
+        $sql = "UPDATE files SET download_count = download_count + 1 WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $file_id]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
 }
 
 ?>
