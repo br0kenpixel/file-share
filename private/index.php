@@ -5,7 +5,9 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
 }
 
 require_once("../components/db.php");
+require_once("../components/file_size.php");
 use fileshare\components\DatabaseClient;
+use fileshare\components\FileSize;
 
 $dbClient = new DatabaseClient();
 ?>
@@ -62,7 +64,9 @@ $dbClient = new DatabaseClient();
                         <th scope="row">
                             <?php echo $value["name"]; ?>
                         </th>
-                        <td>???</td>
+                        <td>
+                            <?php echo FileSize::get_size($_SESSION["username"], $value["name"]) ?> bytes
+                        </td>
                         <td>Plain text file</td>
                         <td>
                             <?php echo $value["upload_time"]; ?>
