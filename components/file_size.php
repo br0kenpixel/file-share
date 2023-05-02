@@ -4,9 +4,14 @@ namespace fileshare\components;
 
 class FileSize
 {
+    public static function get_file_path(string $user, string $file): string
+    {
+        return __DIR__ . "/../storage/" . $user . "/" . $file;
+    }
+
     public static function get_size(string $user, string $file): int
     {
-        $path = __DIR__ . "/../storage/" . $user . "/" . $file;
+        $path = self::get_file_path($user, $file);
         return filesize($path);
     }
 

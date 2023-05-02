@@ -76,7 +76,8 @@ $dbClient = new DatabaseClient();
                             <?php echo $value["upload_time"]; ?>
                         </td>
                         <td class="vallign">
-                            <button type="button" class="btn btn-primary btn-sm">&#11015;&#65039; Download</button>
+                            <a href="<?php echo "/download.php?file=" . $value["id"]; ?>"><button type="button"
+                                    class="btn btn-primary btn-sm">&#11015;&#65039; Download</button></a>
                             <button type="button" class="btn btn-success btn-sm">&#128206; Share link</button>
                             <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
                         </td>

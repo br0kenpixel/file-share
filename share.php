@@ -1,3 +1,26 @@
+<?php
+if (!isset($_GET["file"])) {
+    header("Location: /share_error.php");
+}
+
+require_once("components/db.php");
+require_once("components/file_size.php");
+require_once("components/formatter.php");
+use fileshare\components\DatabaseClient;
+use fileshare\components\FileSize;
+use fileshare\components\Formatter;
+
+$dbClient = new DatabaseClient();
+$file = $dbClient->get_file($_GET["file"]);
+
+if ($file === false) {
+    header("Location: /share_error.php");
+}
+
+$owner_name = $dbClient->get_username_by_id($file["owner"]);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +28,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Share - About</title>
+    <title>File Share -
+        <?php echo $file["name"] ?>
+    </title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +46,9 @@
         <div class="row">
             <div class="col">
                 <p class="h1">Share</p>
-                <p><em>$FILE$</em></p>
+                <p><em>
+                        <?php echo $file["name"] ?>
+                    </em></p>
 
                 <br />
             </div>
@@ -33,23 +60,33 @@
             <thead>
                 <tr>
                     <th scope="col"><strong>Size:</strong></th>
-                    <td>xxx kB</td>
+                    <td>
+                        <?php echo Formatter::pretty_size(FileSize::get_size($owner_name, $file["name"])); ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col"><strong>Kind:</strong></th>
-                    <td>Plain text file</td>
+                    <td>
+                        <?php echo Formatter::get_file_kind($file["name"]); ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col"><strong>Owner:</strong></th>
-                    <td>$OWNER$</td>
+                    <td>
+                        <?php echo $owner_name . " (" . $file["owner"] . ")"; ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col"><strong>Uploaded on:</strong></th>
-                    <td>$UPLOAD_TIME$</td>
+                    <td>
+                        <?php echo $file["upload_time"]; ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col"><strong>Downloads:</strong></th>
-                    <td>$DOWNLOAD_COUNT$</td>
+                    <td>
+                        <?php echo $file["download_count"]; ?>
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -58,7 +95,8 @@
     <div class="container text-center buttons">
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-primary btn-sm">&#11015;&#65039; Download</button>
+                <a href="<?php echo "/download.php?file=" . $file["id"]; ?>"><button type="button"
+                        class="btn btn-primary btn-sm">&#11015;&#65039; Download</button></a>
                 <button type="button" class="btn btn-secondary btn-sm">&#128206; Copy link</button>
                 <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
             </div>

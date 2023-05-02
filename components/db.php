@@ -182,7 +182,7 @@ class DatabaseClient
 
     public function get_user_files(int $id): array
     {
-        $sql = "SELECT files.name, files.upload_time FROM files INNER JOIN users ON files.owner = users.id WHERE files.owner = :id";
+        $sql = "SELECT files.id, files.name, files.upload_time FROM files INNER JOIN users ON files.owner = users.id WHERE files.owner = :id";
         $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
 
         try {
@@ -193,6 +193,36 @@ class DatabaseClient
             die();
         }
         return $result;
+    }
+
+    public function get_file(int $id): array|bool
+    {
+        $sql = "SELECT * from files WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result;
+    }
+
+    public function get_username_by_id(int $id): string
+    {
+        $sql = "SELECT username from users WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["username"];
     }
 }
 
