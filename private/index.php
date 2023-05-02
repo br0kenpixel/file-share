@@ -87,16 +87,27 @@ $dbClient = new DatabaseClient();
             </tbody>
         </table>
 
+        <?php
+        $cap = $dbClient->get_user_limit($_SESSION["id"]);
+        $usage = FileSize::get_user_usage($_SESSION["username"]);
+        $usage_percentage = FileSize::calc_usage_percentage($cap, $usage);
+        ?>
+
         <p>Files count:
             <?php echo $dbClient->get_user_file_count($_SESSION["id"]) ?>
         </p>
-        <p>Storage usage: </p>
+        <p>Storage usage:
+            <?php echo Formatter::pretty_size($usage); ?>
+        </p>
+
         <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
             aria-valuemax="100">
-            <div class="progress-bar" style="width: 25%">25%</div>
+            <div class="progress-bar" style="width: <?php echo $usage_percentage; ?>%">
+                <?php echo $usage_percentage; ?>%
+            </div>
         </div>
         <p>Storage limit:
-            <?php echo $dbClient->get_user_limit($_SESSION["id"]) ?> bytes
+            <?php echo Formatter::pretty_size($cap); ?> bytes
         </p>
     </div>
 
