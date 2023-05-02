@@ -237,6 +237,34 @@ class DatabaseClient
             die();
         }
     }
+
+    public function add_file(int $userid, string $file_name)
+    {
+        $sql = "INSERT INTO files (owner, name, upload_time) VALUES (?, ?, NOW())";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute([$userid, $file_name]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
+
+    public function file_exists(int $userid, string $file): bool
+    {
+        $sql = "SELECT COUNT(id) as count from files WHERE owner = :id AND name = :name";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $userid, "name" => $file]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["count"] === 1;
+    }
 }
 
 ?>

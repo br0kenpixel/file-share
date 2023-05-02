@@ -18,7 +18,10 @@ class Formatter
         "rs" => "Rust source",
         "zip" => "ZIP Archive",
         "tar" => "Tarball",
-        "7z" => "7-Zip Archive"
+        "7z" => "7-Zip Archive",
+        "jpg" => "Image",
+        "png" => "Image",
+        "toml" => "TOML Document"
     ];
     public static function pretty_size(int $amount): string
     {
