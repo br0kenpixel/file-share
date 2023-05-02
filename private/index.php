@@ -6,8 +6,10 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
 
 require_once("../components/db.php");
 require_once("../components/file_size.php");
+require_once("../components/formatter.php");
 use fileshare\components\DatabaseClient;
 use fileshare\components\FileSize;
+use fileshare\components\Formatter;
 
 $dbClient = new DatabaseClient();
 ?>
@@ -65,9 +67,11 @@ $dbClient = new DatabaseClient();
                             <?php echo $value["name"]; ?>
                         </th>
                         <td>
-                            <?php echo FileSize::get_size($_SESSION["username"], $value["name"]) ?> bytes
+                            <?php echo Formatter::pretty_size(FileSize::get_size($_SESSION["username"], $value["name"])); ?>
                         </td>
-                        <td>Plain text file</td>
+                        <td>
+                            <?php echo Formatter::get_file_kind($value["name"]); ?>
+                        </td>
                         <td>
                             <?php echo $value["upload_time"]; ?>
                         </td>
