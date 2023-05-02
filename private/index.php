@@ -107,7 +107,7 @@ $dbClient = new DatabaseClient();
             </div>
         </div>
         <p>Storage limit:
-            <?php echo Formatter::pretty_size($cap); ?> bytes
+            <?php echo Formatter::pretty_size($cap); ?>
         </p>
     </div>
 
