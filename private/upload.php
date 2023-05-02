@@ -27,7 +27,7 @@ if (isset($_FILES["file"])) {
         $_SESSION["upload_error"] = "You don't have enough space to store this file.";
     } else if (!$can_upload) {
         $_SESSION["upload_error"] = "You are not allowed to upload right now.";
-    } else if (!move_uploaded_file($file_tmp, __DIR__ . "/../storage/" . $_SESSION["username"] . "/" . $file_name)) {
+    } else if (!move_uploaded_file($file_tmp, "../storage/" . $_SESSION["username"] . "/" . $file_name)) {
         $_SESSION["upload_error"] = "Failed to process file.";
     } else {
         $dbClient->add_file($_SESSION["id"], $file_name);
@@ -117,7 +117,7 @@ if (isset($_FILES["file"])) {
             <br />
 
             <p><em>Upload limit:</em>
-                <?php echo ini_get("upload_max_filesize"); ?>
+                <?php echo ini_get("post_max_size"); ?>
             </p>
         </div>
     <?php } ?>
