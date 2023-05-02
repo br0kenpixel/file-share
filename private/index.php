@@ -55,17 +55,27 @@ $dbClient = new DatabaseClient();
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">sample.txt</th>
-                    <td>1 KB</td>
-                    <td>Plain text file</td>
-                    <td>12.09.2011</td>
-                    <td class="vallign">
-                        <button type="button" class="btn btn-primary btn-sm">&#11015;&#65039; Download</button>
-                        <button type="button" class="btn btn-success btn-sm">&#128206; Share link</button>
-                        <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
-                    </td>
-                </tr>
+                <?php
+                foreach ($dbClient->get_user_files($_SESSION["id"]) as $key => $value) {
+                    ?>
+                    <tr>
+                        <th scope="row">
+                            <?php echo $value["name"]; ?>
+                        </th>
+                        <td>???</td>
+                        <td>Plain text file</td>
+                        <td>
+                            <?php echo $value["upload_time"]; ?>
+                        </td>
+                        <td class="vallign">
+                            <button type="button" class="btn btn-primary btn-sm">&#11015;&#65039; Download</button>
+                            <button type="button" class="btn btn-success btn-sm">&#128206; Share link</button>
+                            <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
             </tbody>
         </table>
 

@@ -179,6 +179,21 @@ class DatabaseClient
 
         return $result["storage_limit"];
     }
+
+    public function get_user_files(int $id): array
+    {
+        $sql = "SELECT files.name, files.upload_time FROM files INNER JOIN users ON files.owner = users.id WHERE files.owner = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result;
+    }
 }
 
 ?>
