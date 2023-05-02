@@ -3,6 +3,10 @@ if (!isset($_GET["file"])) {
     header("Location: /share_error.php");
 }
 
+if (empty($_GET["file"])) {
+    header("Location: /share_error.php");
+}
+
 require_once("components/db.php");
 require_once("components/file_size.php");
 require_once("components/formatter.php");
@@ -98,7 +102,8 @@ $owner_name = $dbClient->get_username_by_id($file["owner"]);
             <div class="col">
                 <a href="<?php echo "/download.php?file=" . $file["id"]; ?>"><button type="button"
                         class="btn btn-primary btn-sm">&#11015;&#65039; Download</button></a>
-                <button type="button" class="btn btn-secondary btn-sm">&#128206; Copy link</button>
+                <button id="copy-btn" type="button" class="btn btn-secondary btn-sm" onclick="copyLink()">&#128206; Copy
+                    link</button>
                 <?php
                 if (isset($_SESSION["login"]) && $_SESSION["login"] === true && $_SESSION["id"] == $file["owner"]) {
                     ?>
@@ -112,6 +117,18 @@ $owner_name = $dbClient->get_username_by_id($file["owner"]);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function copyLink() {
+            var button = document.getElementById("copy-btn");
+            var button_text = button.textContent;
+            navigator.clipboard.writeText(window.location.href);
+
+            button.textContent = "Copied!";
+            setTimeout(function () {
+                button.textContent = button_text;
+            }, 1000);
+        }
+    </script>
 </body>
 
 </html>

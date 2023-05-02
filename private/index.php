@@ -12,6 +12,7 @@ use fileshare\components\FileSize;
 use fileshare\components\Formatter;
 
 $dbClient = new DatabaseClient();
+$root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +79,8 @@ $dbClient = new DatabaseClient();
                         <td class="vallign">
                             <a href="<?php echo "/download.php?file=" . $value["id"]; ?>"><button type="button"
                                     class="btn btn-primary btn-sm">&#11015;&#65039; Download</button></a>
-                            <button type="button" class="btn btn-success btn-sm">&#128206; Share link</button>
+                            <a href="<?php echo $root . "share.php?file=" . $value["id"] ?>"><button id="copy-btn"
+                                    type="button" class="btn btn-success btn-sm">&#128206; Share link</button></a>
                             <a href="<?php echo "/remove.php?file=" . $value["id"]; ?>"><button type="button"
                                     class="btn btn-danger btn-sm">&#10060; Delete</button></a>
 
