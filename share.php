@@ -102,7 +102,8 @@ $owner_name = $dbClient->get_username_by_id($file["owner"]);
                 <?php
                 if (isset($_SESSION["login"]) && $_SESSION["login"] === true && $_SESSION["id"] == $file["owner"]) {
                     ?>
-                    <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
+                    <a href="<?php echo "/remove.php?file=" . $file["id"]; ?>"><button type="button"
+                            class="btn btn-danger btn-sm">&#10060; Delete</button></a>
                     <?php
                 }
                 ?>

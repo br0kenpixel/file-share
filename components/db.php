@@ -251,6 +251,19 @@ class DatabaseClient
         }
     }
 
+    public function remove_file(int $id)
+    {
+        $sql = "DELETE FROM files WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $id]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
+
     public function file_exists(int $userid, string $file): bool
     {
         $sql = "SELECT COUNT(id) as count from files WHERE owner = :id AND name = :name";
