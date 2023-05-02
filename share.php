@@ -10,6 +10,7 @@ use fileshare\components\DatabaseClient;
 use fileshare\components\FileSize;
 use fileshare\components\Formatter;
 
+session_start();
 $dbClient = new DatabaseClient();
 $file = $dbClient->get_file($_GET["file"]);
 
@@ -98,7 +99,13 @@ $owner_name = $dbClient->get_username_by_id($file["owner"]);
                 <a href="<?php echo "/download.php?file=" . $file["id"]; ?>"><button type="button"
                         class="btn btn-primary btn-sm">&#11015;&#65039; Download</button></a>
                 <button type="button" class="btn btn-secondary btn-sm">&#128206; Copy link</button>
-                <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
+                <?php
+                if (isset($_SESSION["login"]) && $_SESSION["login"] === true && $_SESSION["id"] == $file["owner"]) {
+                    ?>
+                    <button type="button" class="btn btn-danger btn-sm">&#10060; Delete</button>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>
