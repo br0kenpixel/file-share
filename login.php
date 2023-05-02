@@ -8,13 +8,13 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
 require_once("components/db.php");
 use fileshare\components\DatabaseClient;
 
-if (isset($_GET["username"]) && isset($_GET["password"])) {
+if (isset($_POST["username"]) && isset($_POST["password"])) {
     $dbClient = new DatabaseClient();
-    if ($dbClient->login($_GET["username"], $_GET["password"])) {
+    if ($dbClient->login($_POST["username"], $_POST["password"])) {
         session_start();
         $_SESSION["login"] = true;
-        $_SESSION["username"] = $_GET["username"];
-        $_SESSION["id"] = $dbClient->get_user_id($_GET["username"]);
+        $_SESSION["username"] = $_POST["username"];
+        $_SESSION["id"] = $dbClient->get_user_id($_POST["username"]);
         header("Location: private/index.php");
     } else {
         header("Location: login.php?error=true");
@@ -57,14 +57,14 @@ if (isset($_GET["username"]) && isset($_GET["password"])) {
     ?>
 
     <div class="container centered w-25">
-        <form>
+        <form method="post" action="login.php">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username">
+                <input type="text" class="form-control" id="username" name="username">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password">
+                <input type="password" class="form-control" id="password" name="password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
