@@ -3,6 +3,11 @@ session_start();
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
 }
+
+require_once("../components/db.php");
+use fileshare\components\DatabaseClient;
+
+$dbClient = new DatabaseClient();
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +69,9 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
             </tbody>
         </table>
 
-        <p>Files count: ?</p>
+        <p>Files count:
+            <?php echo $dbClient->get_user_file_count($_SESSION["id"]) ?>
+        </p>
         <p>Storage usage: </p>
         <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
             aria-valuemax="100">

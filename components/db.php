@@ -2,7 +2,7 @@
 
 namespace fileshare\components;
 
-require_once("dotenv.php");
+require_once(__DIR__ . "/dotenv.php");
 
 use PDO;
 use fileshare\components\DotEnvReader;
@@ -139,6 +139,22 @@ class DatabaseClient
         } else {
             throw new \Exception("Unexpected type for 'is_admin'");
         }
+    }
+
+    public function get_user_file_count(int $id): int
+    {
+        $sql = "SELECT COUNT(files.id) as count FROM files INNER JOIN users ON files.owner = users.id WHERE files.owner = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+
+        return $result["count"];
     }
 }
 

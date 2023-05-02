@@ -12,7 +12,7 @@ namespace fileshare\components;
  */
 class DotEnvReader
 {
-    private const ENV_FILE = ".env";
+    private const ENV_FILE = __DIR__ . "/../.env";
 
     /**
      * Read the value af an environment variable defined in an `dotenv` file.
