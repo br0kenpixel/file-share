@@ -278,6 +278,41 @@ class DatabaseClient
         }
         return $result["count"] === 1;
     }
+
+    public function add_user(string $username, string $email, string $password, bool $is_admin = false): bool
+    {
+        if ($this->user_exists($username)) {
+            return false;
+        }
+
+        $password = hash("sha256", $password);
+        $sql = "INSERT INTO users (username, email, password, is_admin) VALUES (?, ?, ?, ?)";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute([$username, $email, $password, intval($is_admin)]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+
+        return true;
+    }
+
+    private function user_exists(string $username): bool
+    {
+        $sql = "SELECT COUNT(id) as count from users WHERE username = :username";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["username" => $username]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["count"] === 1;
+    }
 }
 
 ?>

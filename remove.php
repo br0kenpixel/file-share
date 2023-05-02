@@ -8,6 +8,10 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
 }
 
+if (empty($_GET["file"])) {
+    header("Location: /index.php");
+}
+
 require_once("components/db.php");
 require_once("components/file_size.php");
 use fileshare\components\DatabaseClient;
