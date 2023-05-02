@@ -1,0 +1,26 @@
+.no-select {
+    -webkit-user-select: none;
+    /* Safari/Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.centered {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+td {
+    text-align: center;
+}
+
+.buttons {
+    padding-top: 350px;
+}

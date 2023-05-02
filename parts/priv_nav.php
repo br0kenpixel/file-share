@@ -13,13 +13,10 @@
                     <a class="nav-link active" aria-current="page" href="index.php">&#127968; Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="register.php">&#128271; Register</a>
+                    <a class="nav-link active" href="logout.php">&#128273; Log out</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="login.php">&#128273; Log in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="about.php">About</a>
+                    <a class="nav-link active" href="upload.php">&#11014;&#65039; Upload</a>
                 </li>
             </ul>
         </div>

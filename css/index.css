@@ -1,0 +1,59 @@
+.no-select {
+    -webkit-user-select: none;
+    /* Safari/Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Standard syntax */
+}
+
+body {
+    background-color: rgb(30, 30, 30);
+}
+
+hr {
+    color: rgb(229, 76, 45);
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+button {
+    width: 120px;
+    animation: fade-in 3s ease forwards;
+    animation-delay: 10ms;
+}
+
+.white-text {
+    color: white;
+}
+
+.centered {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.step {
+    transition: transform 0.3s ease;
+}
+
+.step:hover {
+    transform: rotate(2deg) scale(1.2);
+}
+
+.faq {
+    position: relative;
+    z-index: 2;
+}
