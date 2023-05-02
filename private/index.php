@@ -77,7 +77,9 @@ $dbClient = new DatabaseClient();
             aria-valuemax="100">
             <div class="progress-bar" style="width: 25%">25%</div>
         </div>
-        <p>Storage limit: ?</p>
+        <p>Storage limit:
+            <?php echo $dbClient->get_user_limit($_SESSION["id"]) ?> bytes
+        </p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

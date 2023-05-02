@@ -156,6 +156,29 @@ class DatabaseClient
 
         return $result["count"];
     }
+
+    /**
+     * Return a user's storage capacity limit in bytes.
+     *
+     * @param int $id ID of the user
+     * 
+     * @return int
+     */
+    public function get_user_limit(int $id): int
+    {
+        $sql = "SELECT storage_limit FROM users WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+
+        return $result["storage_limit"];
+    }
 }
 
 ?>
