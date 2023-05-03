@@ -6,7 +6,9 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
 }
 
 require_once("../components/db.php");
+require_once("../components/formatter.php");
 use fileshare\components\DatabaseClient;
+use fileshare\components\Formatter;
 
 $dbClient = new DatabaseClient();
 session_start();
@@ -14,6 +16,7 @@ session_start();
 $display_id = $_SESSION["id"];
 $display_username = $_SESSION["username"];
 $display_email = $dbClient->get_user_email($display_id);
+$display_storage_limit = $dbClient->get_user_limit($display_id);
 $user_not_found = false;
 $displaying_self = true;
 
@@ -39,6 +42,7 @@ if (isset($_GET["id"])) {
 
         $display_username = $user["username"];
         $display_email = $user["email"];
+        $display_storage_limit = $dbClient->get_user_limit($display_id);
         $displaying_self = false;
     }
 }
@@ -95,6 +99,14 @@ if (isset($_GET["id"])) {
             <p><strong>E-mail: </strong><em>
                     <?php echo $display_email; ?>
             </p>
+            <p><strong>Storage limit: </strong><em>
+                    <?php echo Formatter::pretty_size($display_storage_limit); ?>
+                    <?php if ($_SESSION["is_admin"]) {
+                        ?>
+                        <a href="" data-bs-toggle="modal" data-bs-target="#storageChangeModal">Change</a>
+                        <?php
+                    } ?>
+            </p>
             <?php
             if ($displaying_self) {
                 ?>
@@ -116,7 +128,9 @@ if (isset($_GET["id"])) {
         <br />
 
         <div class="container">
-            <a href="<?php echo "/del_account.php?id=" . $display_id; ?>"><button type="button" class="btn btn-danger"><?php echo $displaying_self ? "Delete my account" : "Delete account"; ?></button></a>
+            <a href="<?php echo "/del_account.php?id=" . $display_id; ?>"><button type="button" class="btn btn-danger">
+                    <?php echo $displaying_self ? "Delete my account" : "Delete account"; ?>
+                </button></a>
             <?php if ($_SESSION["is_admin"]) {
                 ?>
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#accountModal">Manage
@@ -166,6 +180,29 @@ if (isset($_GET["id"])) {
                         <div class="mb-3">
                             <label for="newPass" class="form-label">New password</label>
                             <input type="password" class="form-control" id="newPass" name="new">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="storageChangeModal" tabindex="-1" aria-labelledby="storageChangeLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="storageChangeLabel">Change storage limit</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="get" action="/storage_update.php">
+                        <input type="hidden" name="id" value="<?php echo $display_id; ?>">
+                        <div class="mb-3">
+                            <label for="limit" class="form-label">Storage limit (in bytes)</label>
+                            <input type="number" class="form-control" id="limit" name="new"
+                                value="<?php echo $display_storage_limit; ?>">
                         </div>
                         <button type="submit" class="btn btn-primary">Change</button>
                     </form>

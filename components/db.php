@@ -397,6 +397,19 @@ class DatabaseClient
             die();
         }
     }
+
+    public function update_storage_limit(int $userid, int $new)
+    {
+        $sql = "UPDATE users SET storage_limit = :storage_limit WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $userid, "storage_limit" => $new]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
 }
 
 ?>
