@@ -15,6 +15,7 @@ $display_id = $_SESSION["id"];
 $display_username = $_SESSION["username"];
 $display_email = $dbClient->get_user_email($display_id);
 $user_not_found = false;
+$displaying_self = true;
 
 if (isset($_GET["id"])) {
     if (empty($_GET["id"])) {
@@ -38,6 +39,7 @@ if (isset($_GET["id"])) {
 
         $display_username = $user["username"];
         $display_email = $user["email"];
+        $displaying_self = false;
     }
 }
 ?>
@@ -89,12 +91,22 @@ if (isset($_GET["id"])) {
                 </em></p>
             <p><strong>Username: </strong><em>
                     <?php echo $display_username; ?>
-                </em> <a href="">Change</a></p>
+            </p>
             <p><strong>E-mail: </strong><em>
                     <?php echo $display_email; ?>
-                </em> <a href="">Change</a></p>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#passwordChangeModal">Change password</button>
+            </p>
+            <?php
+            if ($displaying_self) {
+                ?>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#passwordChangeModal">Change password</button>
+                <?php
+            } else {
+                ?>
+                <p style="color: red;"><em>You cannot change this user's password.</em></p>
+                <?php
+            }
+            ?>
         </div>
 
         <br />
@@ -104,8 +116,7 @@ if (isset($_GET["id"])) {
         <br />
 
         <div class="container">
-            <a href="<?php echo "/del_account.php?id=" . $display_id; ?>"><button type="button"
-                    class="btn btn-danger">Delete my account</button></a>
+            <a href="<?php echo "/del_account.php?id=" . $display_id; ?>"><button type="button" class="btn btn-danger"><?php echo $displaying_self ? "Delete my account" : "Delete account"; ?></button></a>
             <?php if ($_SESSION["is_admin"]) {
                 ?>
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#accountModal">Manage
