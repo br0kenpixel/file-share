@@ -3,6 +3,7 @@
 session_start();
 if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
     header("Location: private/index.php");
+    die();
 }
 
 require_once("components/db.php");
@@ -17,8 +18,10 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         $_SESSION["id"] = $dbClient->get_user_id($_POST["username"]);
         $_SESSION["is_admin"] = $dbClient->is_admin($_SESSION["id"]);
         header("Location: private/index.php");
+        die();
     } else {
         header("Location: login.php?error=true");
+        die();
     }
 }
 ?>
@@ -40,7 +43,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php require_once("parts/nav.php"); ?>
 
     <?php
     if (isset($_GET["error"])) {

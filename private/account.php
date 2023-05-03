@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
+    die();
 }
 
 require_once("../components/db.php");
@@ -18,23 +19,25 @@ $user_not_found = false;
 if (isset($_GET["id"])) {
     if (empty($_GET["id"])) {
         header("Location: account.php");
+        die();
     }
 
     if (!$_SESSION["is_admin"]) {
         header("Location: account.php");
-    } else {
-        $display_id = $_GET["id"];
-        $user = $dbClient->get_user($_GET["id"]);
-        if ($user === false) {
-            $user_not_found = true;
-        } else {
-            if ($user["id"] == $_SESSION["id"]) {
-                header("Location: account.php");
-            }
+        die();
+    }
 
-            $display_username = $user["username"];
-            $display_email = $user["email"];
+    $display_id = $_GET["id"];
+    $user = $dbClient->get_user($_GET["id"]);
+    if ($user === false) {
+        $user_not_found = true;
+    } else {
+        if ($user["id"] == $_SESSION["id"]) {
+            header("Location: account.php");
         }
+
+        $display_username = $user["username"];
+        $display_email = $user["email"];
     }
 }
 ?>

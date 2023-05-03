@@ -2,14 +2,13 @@
 session_start();
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
+    die();
 }
 
 require_once("../components/db.php");
 require_once("../components/file_size.php");
-require_once("../components/formatter.php");
 use fileshare\components\DatabaseClient;
 use fileshare\components\FileSize;
-use fileshare\components\Formatter;
 
 $dbClient = new DatabaseClient();
 $user_usage = FileSize::get_user_usage($_SESSION["username"]);

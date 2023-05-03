@@ -12,7 +12,7 @@
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php require_once("parts/nav.php"); ?>
 
     <div class="container">
         <p class="h1">FileShare</p>

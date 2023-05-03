@@ -2,10 +2,12 @@
 
 if (!isset($_POST["id"]) || !isset($_POST["current"]) || !isset($_POST["new"])) {
     header("Location: private/index.php");
+    die();
 }
 
 if (empty($_POST["id"]) || empty($_POST["current"]) || empty($_POST["new"])) {
     header("Location: private/index.php");
+    die();
 }
 
 require_once("components/db.php");
@@ -29,5 +31,4 @@ if (!$dbClient->update_password($_POST["id"], $_POST["current"], $_POST["new"]))
     die();
 }
 header("Location: private/logout.php");
-
 ?>

@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
+    die();
 }
 
 require_once("../components/db.php");

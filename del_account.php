@@ -2,14 +2,17 @@
 
 if (!isset($_GET["id"])) {
     header("Location: private/index.php");
+    die();
 }
 
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
+    die();
 }
 
 if (empty($_GET["id"])) {
     header("Location: private/index.php");
+    die();
 }
 
 require_once("components/db.php");

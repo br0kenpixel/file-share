@@ -1,10 +1,12 @@
 <?php
 if (!isset($_GET["file"])) {
     header("Location: /share_error.php");
+    die();
 }
 
 if (empty($_GET["file"])) {
     header("Location: /share_error.php");
+    die();
 }
 
 require_once("components/db.php");
@@ -20,6 +22,7 @@ $file = $dbClient->get_file($_GET["file"]);
 
 if ($file === false) {
     header("Location: /share_error.php");
+    die();
 }
 
 $owner_name = $dbClient->get_username_by_id($file["owner"]);

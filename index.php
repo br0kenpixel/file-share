@@ -2,6 +2,7 @@
 session_start();
 if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
     header("Location: private/index.php");
+    die();
 }
 ?>
 
@@ -22,7 +23,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php require_once("parts/nav.php"); ?>
 
     <div class="container text-center">
         <br />

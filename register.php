@@ -2,6 +2,7 @@
 session_start();
 if (isset($_SESSION["login"]) && $_SESSION["login"] === true) {
     header("Location: private/index.php");
+    die();
 }
 
 require_once("components/db.php");
@@ -38,7 +39,7 @@ if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["emai
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php require_once("parts/nav.php"); ?>
 
     <?php
     if ($register_ok) {

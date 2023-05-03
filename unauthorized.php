@@ -15,7 +15,7 @@
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php require_once("parts/nav.php"); ?>
 
     <div class="container text-center">
         <div class="row">
