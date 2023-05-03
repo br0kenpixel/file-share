@@ -23,7 +23,9 @@ if ($file === false) {
 }
 
 $owner_name = $dbClient->get_username_by_id($file["owner"]);
-
+$can_delete = isset($_SESSION["login"]) &&
+    $_SESSION["login"] === true &&
+    ($_SESSION["id"] == $file["owner"] || $_SESSION["is_admin"] === true);
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +107,7 @@ $owner_name = $dbClient->get_username_by_id($file["owner"]);
                 <button id="copy-btn" type="button" class="btn btn-secondary btn-sm" onclick="copyLink()">&#128206; Copy
                     link</button>
                 <?php
-                if (isset($_SESSION["login"]) && $_SESSION["login"] === true && $_SESSION["id"] == $file["owner"]) {
+                if ($can_delete) {
                     ?>
                     <a href="<?php echo "/remove.php?file=" . $file["id"]; ?>"><button type="button"
                             class="btn btn-danger btn-sm">&#10060; Delete</button></a>
