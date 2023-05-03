@@ -1,16 +1,16 @@
 <?php
 
-if (!isset($_GET["id"]) || !isset($_GET["new"])) {
+if (!isset($_GET["id"]) || !isset($_GET["admin"])) {
     header("Location: private/index.php");
     die();
 }
 
-if (empty($_GET["id"]) || empty($_GET["new"])) {
+if (empty($_GET["id"]) || (empty($_GET["admin"]) && $_GET["admin"] !== "0")) {
     header("Location: private/index.php");
     die();
 }
 
-if (!is_numeric($_GET["new"])) {
+if (!is_numeric($_GET["admin"])) {
     header("Location: private/index.php");
     die();
 }
@@ -26,6 +26,6 @@ if (!$_SESSION["is_admin"]) {
 }
 
 $dbClient = new DatabaseClient();
-$dbClient->update_storage_limit($_GET["id"], $_GET["new"]);
+$dbClient->set_admin($_GET["id"], intval($_GET["admin"]));
 header("Location: /private/account.php?id=" . $_GET["id"]);
 ?>

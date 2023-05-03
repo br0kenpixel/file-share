@@ -410,6 +410,19 @@ class DatabaseClient
             die();
         }
     }
+
+    public function set_admin(int $userid, bool $admin)
+    {
+        $sql = "UPDATE users SET is_admin = :is_admin WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $userid, "is_admin" => intval($admin)]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
 }
 
 ?>
