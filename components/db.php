@@ -132,6 +132,8 @@ class DatabaseClient
             die();
         }
 
+        $result = $result["is_admin"];
+
         if ($result === 1) {
             return true;
         } else if ($result === 0) {
@@ -312,6 +314,36 @@ class DatabaseClient
             die();
         }
         return $result["count"] === 1;
+    }
+
+    public function get_user_email(int $id): string
+    {
+        $sql = "SELECT email from users WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["email"];
+    }
+
+    public function get_user(int $id): array|bool
+    {
+        $sql = "SELECT * from users WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result;
     }
 }
 

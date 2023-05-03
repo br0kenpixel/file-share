@@ -18,6 +18,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="upload.php">&#11014;&#65039; Upload</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="account.php">Account</a>
+                </li>
             </ul>
         </div>
     </div>

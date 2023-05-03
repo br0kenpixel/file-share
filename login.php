@@ -15,6 +15,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         $_SESSION["login"] = true;
         $_SESSION["username"] = $_POST["username"];
         $_SESSION["id"] = $dbClient->get_user_id($_POST["username"]);
+        $_SESSION["is_admin"] = $dbClient->is_admin($_SESSION["id"]);
         header("Location: private/index.php");
     } else {
         header("Location: login.php?error=true");
