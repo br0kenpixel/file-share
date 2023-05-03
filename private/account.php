@@ -5,11 +5,7 @@ if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
 }
 
 require_once("../components/db.php");
-require_once("../components/file_size.php");
-require_once("../components/formatter.php");
 use fileshare\components\DatabaseClient;
-use fileshare\components\FileSize;
-use fileshare\components\Formatter;
 
 $dbClient = new DatabaseClient();
 session_start();
@@ -29,7 +25,7 @@ if (isset($_GET["id"])) {
             $user_not_found = true;
         }
 
-        if ($user["id"] == $display_id) {
+        if ($user["id"] == $_SESSION["id"]) {
             header("Location: account.php");
         }
 
@@ -100,7 +96,8 @@ if (isset($_GET["id"])) {
         <br />
 
         <div class="container">
-            <button type="button" class="btn btn-danger">Delete my account</button>
+            <a href="<?php echo "/del_account.php?id=" . $display_id; ?>"><button type="button"
+                    class="btn btn-danger">Delete my account</button></a>
             <?php if ($_SESSION["is_admin"]) {
                 ?>
                 <button type="button" class="btn btn-warning">Manage another account</button>

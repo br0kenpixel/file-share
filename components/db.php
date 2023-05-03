@@ -345,6 +345,34 @@ class DatabaseClient
         }
         return $result;
     }
+
+    public function user_id_exists(int $id): bool
+    {
+        $sql = "SELECT COUNT(id) as count from users WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["count"] === 1;
+    }
+
+    public function delete_user(int $id)
+    {
+        $sql = "DELETE FROM users WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $id]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
 }
 
 ?>

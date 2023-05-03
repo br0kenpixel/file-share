@@ -56,7 +56,7 @@ if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["emai
         ?>
         <div class="container">
             <div class="alert alert-danger" role="alert">
-                <p class="h4">&#9940; Upload error</p>
+                <p class="h4">&#9940; Registration error</p>
                 <p>A user already exists with a given username. Please try again with a different username.</p>
             </div>
         </div>
