@@ -27,14 +27,14 @@ if (isset($_GET["id"])) {
         $user = $dbClient->get_user($_GET["id"]);
         if ($user === false) {
             $user_not_found = true;
-        }
+        } else {
+            if ($user["id"] == $_SESSION["id"]) {
+                header("Location: account.php");
+            }
 
-        if ($user["id"] == $_SESSION["id"]) {
-            header("Location: account.php");
+            $display_username = $user["username"];
+            $display_email = $user["email"];
         }
-
-        $display_username = $user["username"];
-        $display_email = $user["email"];
     }
 }
 ?>

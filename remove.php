@@ -4,6 +4,7 @@ if (!isset($_GET["file"])) {
     header("Location: /share_error.php");
 }
 
+session_start();
 if (!isset($_SESSION["login"]) && $_SESSION["login"] !== true) {
     header("Location: /index.php");
 }
@@ -17,7 +18,6 @@ require_once("components/file_size.php");
 use fileshare\components\DatabaseClient;
 use fileshare\components\FileSize;
 
-session_start();
 $dbClient = new DatabaseClient();
 $file = $dbClient->get_file($_GET["file"]);
 
