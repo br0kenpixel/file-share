@@ -1,3 +1,8 @@
+<?php
+session_start();
+$logged_in = isset($_SESSION["login"]) && $_SESSION["login"] === true;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +20,11 @@
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php"); ?>
+    <?php if ($logged_in) {
+        require_once("parts/priv_nav.php");
+    } else {
+        require_once("parts/nav.php");
+    } ?>
 
     <div class="container text-center">
         <div class="row">
