@@ -90,7 +90,8 @@ if (isset($_GET["id"])) {
             <p><strong>E-mail: </strong><em>
                     <?php echo $display_email; ?>
                 </em> <a href="">Change</a></p>
-            <button type="button" class="btn btn-primary">Change password</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#passwordChangeModal">Change password</button>
         </div>
 
         <br />
@@ -127,6 +128,32 @@ if (isset($_GET["id"])) {
                             <input type="number" class="form-control" id="accountId" name="id">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="passwordChangeLabel">Change password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/update_pass.php">
+                        <input type="hidden" name="id" value="<?php echo $display_id; ?>">
+                        <div class="mb-3">
+                            <label for="currentPass" class="form-label">Current password</label>
+                            <input type="password" class="form-control" id="currentPass" name="current">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPass" class="form-label">New password</label>
+                            <input type="password" class="form-control" id="newPass" name="new">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change</button>
                     </form>
                 </div>
             </div>

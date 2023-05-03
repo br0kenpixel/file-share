@@ -373,6 +373,30 @@ class DatabaseClient
             die();
         }
     }
+
+    public function update_password(int $userid, string $current, string $new): bool
+    {
+        if (!$this->login($this->get_username_by_id($userid), $current)) {
+            return false;
+        }
+
+        $this->update_password_unchecked($userid, $new);
+        return true;
+    }
+
+    private function update_password_unchecked(int $userid, string $new)
+    {
+        $new = hash("sha256", $new);
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $userid, "password" => $new]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
 }
 
 ?>

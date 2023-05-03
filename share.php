@@ -23,9 +23,8 @@ if ($file === false) {
 }
 
 $owner_name = $dbClient->get_username_by_id($file["owner"]);
-$can_delete = isset($_SESSION["login"]) &&
-    $_SESSION["login"] === true &&
-    ($_SESSION["id"] == $file["owner"] || $_SESSION["is_admin"] === true);
+$logged_in = isset($_SESSION["login"]) && $_SESSION["login"] === true;
+$can_delete = $logged_in && ($_SESSION["id"] == $file["owner"] || $_SESSION["is_admin"] === true);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +46,11 @@ $can_delete = isset($_SESSION["login"]) &&
 </head>
 
 <body class="no-select" data-bs-theme="dark">
-    <?php require_once("parts/nav.php") ?>
+    <?php if ($logged_in) {
+        require_once("parts/priv_nav.php");
+    } else {
+        require_once("parts/nav.php");
+    } ?>
 
     <div class="container text-center">
         <div class="row">
