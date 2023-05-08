@@ -126,11 +126,11 @@ $file_count = $dbClient->get_user_file_count($_SESSION["id"]);
                         ?>
                         <tr>
                             <th scope="row">
-                                <a class="filename-text">
+                                <a class="filename-text" style="text-decoration: none; color: inherit;">
                                     <?php echo $value["name"]; ?>
                                 </a>
                                 <input class="editable-filename" type="text" value="<?php echo $value["name"]; ?>"
-                                    style="display: none; width: 100%;" id="<?php echo $value["id"]; ?>">
+                                    id="<?php echo $value["id"]; ?>" style="display: none; width: 100%;">
                             </th>
                             <td>
                                 <?php echo Formatter::pretty_size(FileSize::get_size($_SESSION["username"], $value["name"])); ?>
@@ -148,7 +148,6 @@ $file_count = $dbClient->get_user_file_count($_SESSION["id"]);
                                         type="button" class="btn btn-success btn-sm">&#128206; Share link</button></a>
                                 <a href="<?php echo "/remove.php?file=" . $value["id"]; ?>"><button type="button"
                                         class="btn btn-danger btn-sm">&#10060; Delete</button></a>
-
                             </td>
                         </tr>
                         <?php
