@@ -126,7 +126,11 @@ $file_count = $dbClient->get_user_file_count($_SESSION["id"]);
                         ?>
                         <tr>
                             <th scope="row">
-                                <?php echo $value["name"]; ?>
+                                <a class="filename-text">
+                                    <?php echo $value["name"]; ?>
+                                </a>
+                                <input class="editable-filename" type="text" value="<?php echo $value["name"]; ?>"
+                                    style="display: none; width: 100%;" id="<?php echo $value["id"]; ?>">
                             </th>
                             <td>
                                 <?php echo Formatter::pretty_size(FileSize::get_size($_SESSION["username"], $value["name"])); ?>
@@ -178,6 +182,48 @@ $file_count = $dbClient->get_user_file_count($_SESSION["id"]);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var filename_text = document.querySelectorAll(".filename-text");
+        var editable_filename = document.querySelectorAll(".editable-filename");
+
+        filename_text.forEach(element => {
+            element.addEventListener("dblclick", (_) => {
+                var editable_name = element.parentElement.querySelectorAll(".editable-filename")[0];
+
+                element.style.display = "none";
+                editable_name.style.display = "block";
+                editable_name.focus();
+            });
+        });
+
+        editable_filename.forEach(element => {
+            element.addEventListener("keyup", ({ key }) => {
+                if (key !== "Enter") {
+                    return;
+                }
+                var static_filename = element.parentElement.querySelectorAll(".filename-text")[0];
+
+                element.style.display = "none";
+                static_filename.style.display = "block";
+                document.location = "/rename.php?file=" + element.id + "&name=" + encodeURIComponent(element.value);
+            });
+        });
+
+        document.addEventListener("click", (event) => {
+            var target = event.target;
+
+            if (target.tagName === "INPUT") {
+                return;
+            }
+
+            filename_text.forEach(element => {
+                element.style.display = "block";
+            });
+            editable_filename.forEach(element => {
+                element.style.display = "none";
+            });
+        });
+    </script>
 </body>
 
 </html>

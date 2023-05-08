@@ -212,6 +212,21 @@ class DatabaseClient
         return $result;
     }
 
+    public function get_file_name(int $id): string|bool
+    {
+        $sql = "SELECT name from files WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["name"];
+    }
+
     public function get_username_by_id(int $id): string
     {
         $sql = "SELECT username from users WHERE id = :id";
@@ -418,6 +433,34 @@ class DatabaseClient
 
         try {
             $statement->execute(["id" => $userid, "is_admin" => intval($admin)]);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+    }
+
+    public function get_file_owner(int $fileid): int
+    {
+        $sql = "SELECT owner from files WHERE id = :id";
+        $statement = $this->connection->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+
+        try {
+            $statement->execute(["id" => $fileid]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            die();
+        }
+        return $result["owner"];
+    }
+
+    public function rename_file(int $fileid, string $new)
+    {
+        $sql = "UPDATE files SET name = :name WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        try {
+            $statement->execute(["id" => $fileid, "name" => $new]);
         } catch (\Exception $ex) {
             echo $ex->getMessage();
             die();
